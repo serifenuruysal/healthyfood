@@ -5,5 +5,23 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="viewBg">#f1f5f8</color>
-    <color name="album_title">#4c4c4c</color>
+    <color name="album_title">#80f1f5f8</color>
+    <color name="LightGray">#2B2B2B</color>
+    <color name="DarkestWhite">#ADAEB3</color>
+    <color name="DarkWhite">#C0C0c0</color>
+    <color name="Grey">#616361</color>
+    <color name="deepDark">#262626</color>
+    <color name="darkerNight">#80000000</color>
+    <color name="greyli">#99000000</color>
+    <color name="lightGreyli">#7E7E7E</color>
+    <color name="yellow">#88FED200</color>
+    <color name="DarkWhiteAlpha">#50C0C0c0</color>
+    <color name="DarkGrayWithAlpha">#80151515</color>
+    <color name="DarkGrayWithAlphaMin">#10151515</color>
+    <color name="black_30p">#10000000</color>
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+
 </resources>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.soulkitchen.health.view.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/logo_white"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/materialviewpager_logoHeight"
-    android:text="Material is Good"
-    android:textSize="30sp"
+    android:layout_height="40dp"
+    style="@style/MyTextStyleWhiteLight_32"
+
+    android:text="Sağlıklı Beslen, Sağlıklı Yaşa"
+    android:textSize="24sp"
     android:textColor="@android:color/white"/>

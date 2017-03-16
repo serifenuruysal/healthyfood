@@ -1,4 +1,4 @@
-package com.soulkitchen.health;
+package com.soulkitchen.health.utils;
 
 import android.app.Activity;
 import android.content.pm.PackageInfo;

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
 
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
@@ -12,15 +12,11 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-
+        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
         <!-- Toolbar Theme / Apply white arrow -->
         <item name="colorControlNormal">@android:color/white</item>
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
 
-        <!-- Material Theme -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/accent_color</item>
 
 
     </style>
@@ -32,7 +28,91 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@color/drawerArrowColor</item>
+        <item name="color">@color/cardview_dark_background</item>
     </style>
 
+    <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
+
+    </style>
+
+    <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="MyTextStyleWhiteLight_32">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteLight_28">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">@dimen/card_title</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteBold_28">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Bold</item>
+        <item name="android:textSize">@dimen/card_title</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteLight_24">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">@dimen/card_subtitle</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteLight_22">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteLight_20">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteBold_24">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Bold</item>
+        <item name="android:textSize">@dimen/card_subtitle</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="MyTextStyleWhiteBold_22">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Bold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="MyTextStyleGreyLight_24">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">@dimen/card_subtitle</item>
+        <item name="android:textColor">@color/greyli</item>
+    </style>
+
+    <style name="MyTextStyleGreyLight_18">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Light</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/greyli</item>
+    </style>
 </resources>

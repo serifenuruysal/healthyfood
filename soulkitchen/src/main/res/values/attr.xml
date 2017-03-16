@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="CustomWidgetExt">
+		<attr name="MyFont" format="integer">
+			<flag name="Bold" value="0"/>
+			<flag name="Light" value="1"/>
+		</attr>
+
+		<attr name="textUnderLine" format="boolean"/>
+	</declare-styleable>
+</resources>

@@ -14,10 +14,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.soulkitchen.health.Defaults;
 import com.soulkitchen.health.R;
-import com.soulkitchen.health.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

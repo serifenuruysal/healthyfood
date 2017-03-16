@@ -1,21 +1,21 @@
 package com.soulkitchen.health.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.support.v7.view.menu.MenuItemImpl;
-import android.view.Menu;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.soulkitchen.health.MyPageAdapter;
 import com.soulkitchen.health.R;
-import com.soulkitchen.health.ZoomOutPageTransformer;
 import com.soulkitchen.health.fragment.BaseFragment;
 import com.soulkitchen.health.fragment.HomeFragment;
 import com.soulkitchen.health.fragment.ProfilFragment;
+import com.soulkitchen.health.fragment.SettingsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import java.util.List;
  * Created by serifenuruysal on 28/02/17.
  */
 
-public class LoggedInActivity extends FragmentActivity {
+public class LoggedInActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    private List<BaseFragment> fragments = new ArrayList<>(3);
+    FragmentManager manager = getSupportFragmentManager();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,23 +38,38 @@ public class LoggedInActivity extends FragmentActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
+                        BaseFragment fragment = HomeFragment.newInstance("dd");
                         switch (item.getItemId()) {
                             case R.id.action_favorites:
-                                switchFragment(0,"action_favorites");
-                                return true;
+                                fragment = (BaseFragment) manager.findFragmentByTag(HomeFragment.class.getSimpleName());
+                                if (fragment == null) {
+                                    fragment = HomeFragment.newInstance("dd");
+                                }
+                                break;
+
                             case R.id.action_schedules:
-                                switchFragment(1,"action_schedules");
-                                return true;
+                                fragment = (BaseFragment) manager.findFragmentByTag(ProfilFragment.class.getSimpleName());
+                                if (fragment == null) {
+                                    fragment = ProfilFragment.newInstance("dd");
+                                }
+                                break;
                             case R.id.action_music:
-                                switchFragment(2,"action_music");
-                                return true;
+                                fragment = (BaseFragment) manager.findFragmentByTag(SettingsFragment.class.getSimpleName());
+                                if (fragment == null) {
+                                    fragment = SettingsFragment.newInstance("action_music");
+                                }
+                                break;
 
                         }
-                        return false;
+                        setFragment(fragment);
+                        return true;
                     }
                 });
-        buildFragmentsList();
-        switchFragment(0,"action_favorites");
+
+        BaseFragment fragment = HomeFragment.newInstance("dd");
+        setFragment(fragment);
 //        findViewById( R.id.logoutButton ).setOnClickListener( new View.OnClickListener()
 //        {
 //            @Override
@@ -85,15 +100,15 @@ public class LoggedInActivity extends FragmentActivity {
 
 
     }
-
-    private void buildFragmentsList() {
-        HomeFragment callsFragment = HomeFragment.newInstance(getSupportFragmentManager());
-        ProfilFragment recentsFragment = ProfilFragment.newInstance("dd");
-        HomeFragment tripsFragment = HomeFragment.newInstance(getSupportFragmentManager());
-        fragments.add(callsFragment);
-        fragments.add(recentsFragment);
-        fragments.add(tripsFragment);
-    }
+//
+//    private void buildFragmentsList() {
+//        HomeFragment callsFragment = HomeFragment.newInstance("dd");
+//        ProfilFragment recentsFragment = ProfilFragment.newInstance("dd");
+//        HomeFragment tripsFragment = HomeFragment.newInstance("mjb");
+//        fragments.add(callsFragment);
+//        fragments.add(recentsFragment);
+//        fragments.add(tripsFragment);
+//    }
 //    private void setSelectedItem(int actionId) {
 //        Menu menu = bottomNavigationView.getMenu();
 //        for (int i = 0, size = menu.size(); i < size; i++) {
@@ -104,10 +119,18 @@ public class LoggedInActivity extends FragmentActivity {
 //        }
 //    }
 
-    private void switchFragment(int pos,String tag) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_fragmentholder, fragments.get(pos), tag)
-                .commit();
+//    private void switchFragment(int pos,String tag) {
+//
+//        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frame_fragmentholder, fragment, fragment.getClass().getSimpleName());
+//        fragmentTransaction.commit;
+//    }
+
+    public void setFragment(BaseFragment fragment) {
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_fragmentholder, fragment, fragment.getClass().getSimpleName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+        fragmentTransaction.commit();
     }
+
 }
