@@ -16,8 +16,14 @@
         <!-- Toolbar Theme / Apply white arrow -->
         <item name="colorControlNormal">@android:color/white</item>
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+        <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
 
-
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
 
     </style>
 

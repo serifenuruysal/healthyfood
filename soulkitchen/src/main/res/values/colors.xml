@@ -14,14 +14,21 @@
     <color name="darkerNight">#80000000</color>
     <color name="greyli">#99000000</color>
     <color name="lightGreyli">#7E7E7E</color>
-    <color name="yellow">#88FED200</color>
+    <color name="yellow">#98FEDF00</color>
     <color name="DarkWhiteAlpha">#50C0C0c0</color>
     <color name="DarkGrayWithAlpha">#80151515</color>
-    <color name="DarkGrayWithAlphaMin">#10151515</color>
+    <color name="transparant">#00000000</color>
+    <color name="DarkGrayWithAlphaMin">#15151515</color>
     <color name="black_30p">#10000000</color>
-
+    <color name="titlebackround">#509081</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+
+    <color name="color_tab_1">#022B3A</color>
+    <color name="color_tab_2">#2B2237</color>
+    <color name="color_tab_3">#002626</color>
+
+
 
 </resources>

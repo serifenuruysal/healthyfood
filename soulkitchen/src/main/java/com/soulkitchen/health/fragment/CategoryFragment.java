@@ -1,26 +1,21 @@
 package com.soulkitchen.health.fragment;
 
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.View;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
-import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
-import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
+import com.backendless.persistence.BackendlessDataQuery;
 import com.soulkitchen.health.CardViewAdapter;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,18 +25,22 @@ import butterknife.ButterKnife;
  * Created by serifenuruysal on 12/03/17.
  */
 
-public class CategoryFragment extends Fragment {
+public class CategoryFragment extends BaseFragment {
 public static final String TAG="CategoryFragment";
     private static final boolean GRID_LAYOUT = false;
     private static final int ITEM_COUNT = 100;
     private List<Recipies> recipieList;
     private CardViewAdapter adapter;
+    private Integer categoryId;
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
-
     public static CategoryFragment newInstance(Integer categoryId) {
-        return new CategoryFragment();
+        CategoryFragment f = new CategoryFragment();
+        Bundle localBundle = new Bundle(1);
+        localBundle.putInt("CATEGORY_TYPE", categoryId);
+        f.setArguments(localBundle);
+        return f;
     }
 
     @Override
@@ -53,27 +52,26 @@ public static final String TAG="CategoryFragment";
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        Backendless.Persistence.of(Recipies.class ).find(new AsyncCallback<BackendlessCollection<Recipies>>(){
+        String whereClause = "categoryId ="+CategoryFragment.this.getArguments().getInt("CATEGORY_TYPE");
+        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+        dataQuery.setWhereClause( whereClause );
+        Recipies.findAsync(dataQuery, new AsyncCallback<BackendlessCollection<Recipies>>() {
             @Override
-            public void handleResponse( BackendlessCollection<Recipies> recipies )
-            {
+            public void handleResponse(BackendlessCollection<Recipies> recipies) {
                 if (recipies!=null&&recipies.getData()!=null&&recipies.getData().size()>0){
                     recipieList=recipies.getData();
                     adapter.setList(recipieList);
                     adapter.notifyDataSetChanged();
                 }
                 recipies.getTableName();
-                // every loaded object from the "Contact" table is now an individual java.util.Map
+
             }
+
             @Override
-            public void handleFault( BackendlessFault fault )
-            {
-                Log.e(TAG, "handleFault: "+fault.getMessage(),null );
-                // an error has occurred, the error code can be retrieved with fault.getCode()
+            public void handleFault(BackendlessFault backendlessFault) {
+
             }
         });
-
-        //setup materialviewpager
 
 //        if (GRID_LAYOUT) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
@@ -83,8 +81,13 @@ public static final String TAG="CategoryFragment";
 //        mRecyclerView.setHasFixedSize(true);
 
         //Use this now
-        mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-        adapter=new CardViewAdapter(getContext(),recipieList);
+//        mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
+        adapter=new CardViewAdapter(getContext(), recipieList, new CardViewAdapter.CardViewAdapterListener() {
+            @Override
+            public void onClickCard(Recipies recipie) {
+                CategoryFragment.this.setFragment(CategoryFragment.this,RecipieDetailFragment.newInstance(recipie));
+            }
+        });
         mRecyclerView.setAdapter(adapter);
     }
 }

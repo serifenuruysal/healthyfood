@@ -46,12 +46,30 @@
     <dimen name="size_2x">16dp</dimen>
     <dimen name="size_3x">24dp</dimen>
     <dimen name="size_4x">32dp</dimen>
-    <dimen name="card_image_size">250dp</dimen>
+    <dimen name="card_image_size">200dp</dimen>
     <dimen name="card_title">28sp</dimen>
-    <dimen name="card_subtitle">26sp</dimen>
+    <dimen name="card_subtitle">18sp</dimen>
 
     <dimen name="tab_max_width">264dp</dimen>
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
+
+    <!-- dimensions -->
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="dp8">8dp</dimen>
+    <dimen name="dp16">16dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp48">48dp</dimen>
+    <dimen name="text_micro">12sp</dimen>
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_medium">18sp</dimen>
+    <dimen name="text_large">22sp</dimen>
+    <dimen name="dp96">96dp</dimen>
+    <dimen name="dp144">144dp</dimen>
+    <dimen name="dp192">192dp</dimen>
 </resources>

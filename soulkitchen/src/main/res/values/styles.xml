@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
 
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="@style/ThemeOverlay.AppCompat.Dark">
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
@@ -16,7 +16,6 @@
         <!-- Toolbar Theme / Apply white arrow -->
         <item name="colorControlNormal">@android:color/white</item>
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
-
 
 
     </style>
@@ -47,7 +46,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="MyFont">Light</item>
-        <item name="android:textSize">36sp</item>
+        <item name="android:textSize">32sp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
     <style name="MyTextStyleWhiteLight_28">
@@ -107,7 +106,13 @@
         <item name="android:textSize">@dimen/card_subtitle</item>
         <item name="android:textColor">@color/greyli</item>
     </style>
-
+    <style name="MyTextStyleGreyBold_24">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="MyFont">Bold</item>
+        <item name="android:textSize">@dimen/card_subtitle</item>
+        <item name="android:textColor">@color/greyli</item>
+    </style>
     <style name="MyTextStyleGreyLight_18">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

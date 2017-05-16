@@ -1,119 +1,162 @@
 package com.soulkitchen.health.activity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.annotation.TargetApi;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.widget.ImageView;
 
-import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.facebook.CallbackManager;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.soulkitchen.health.R;
+import com.soulkitchen.health.fragment.BaseFragment;
+import com.soulkitchen.health.fragment.ProfilFragment;
+import com.soulkitchen.health.fragment.SearchFragment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+/**
+ * Created by serifenuruysal on 28/02/17.
+ */
 
-public class MainActivity extends Activity {
-    private CallbackManager callbackManager;
+public class MainActivity extends AppCompatActivity {
+    private AHBottomNavigation bottomNavigation;
+    FragmentManager manager = getSupportFragmentManager();
 
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_activity);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.deepDark));
+        }
+
+        bottomNavigation = (AHBottomNavigation)
+                findViewById(R.id.bottom_navigation);
+        // Create items
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.text_Home, R.drawable.ic_home, R.color.color_tab_1);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.text_search, R.drawable.ic_search_white_24dp, R.color.color_tab_2);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.text_profi, R.drawable.ic_user, R.color.color_tab_3);
+
+// Add items
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item3);
+
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+
+// Disable the translation inside the CoordinatorLayout
+        bottomNavigation.setBehaviorTranslationEnabled(false);
+
+// Enable the translation of the FloatingActionButton
+//        bottomNavigation.manageFloatingActionButtonBehavior(floatingActionButton);
+
+// Change colors
+        bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#616361"));
+
+// Force to tint the drawable (useful for font with icon for example)
+        bottomNavigation.setForceTint(true);
+        bottomNavigation.setTranslucentNavigationEnabled(true);
+
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
 
+        bottomNavigation.setColored(true);// Use colored navigation with circle reveal effect
+        bottomNavigation.setCurrentItem(0);
+        bottomNavigation.setNotificationBackgroundColor(Color.parseColor("#F63D2B"));
 
-//        Map<String, String> twitterFieldsMappings = new HashMap<String, String>();
-//        twitterFieldsMappings.put( "name", "twitter_name" );
-//
-//        Backendless.UserService.loginWithTwitter( this, twitterFieldsMappings, new AsyncCallback<BackendlessUser>()
-//        {
-//            @Override
-//            public void handleResponse( BackendlessUser backendlessUser )
-//            {
-//                // user logged in successfully
-//            }
-//
-//            @Override
-//            public void handleFault( BackendlessFault backendlessFault )
-//            {
-//                // failed to log in
-//            }
-//        } );
+        bottomNavigation.setNotification("1", 2);
+// OR
+//        AHNotification notification = new AHNotification.Builder()
+//                .setText("1")
+//                .setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.deepDark))
+//                .setTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorAccent))
+//                .build();
+//        bottomNavigation.setNotification(notification, 1);
 
-
-        callbackManager = CallbackManager.Factory.create();
-
-        final EditText emailField = (EditText) findViewById(R.id.emailField);
-        final EditText passwordField = (EditText) findViewById(R.id.passwordField);
-
-        findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTabSelected(int position, boolean wasSelected) {
 
-                Map<String, String> facebookFieldsMappings = new HashMap<>();
-                facebookFieldsMappings.put("email", "email");
-                facebookFieldsMappings.put("first_name", "fb_first_name");
-                facebookFieldsMappings.put("last_name", "fb_last_name");
-                facebookFieldsMappings.put("gender", "fb_gender");
+                BaseFragment fragment = SearchFragment.newInstance("dd");
+                switch (position) {
+                    case 0:
+                        fragment = (BaseFragment) manager.findFragmentByTag(SearchFragment.class.getSimpleName());
+                        if (fragment == null) {
+                            fragment = SearchFragment.newInstance("action_music");
+                        }
 
-                List<String> permissions = new ArrayList<>();
-                permissions.add("email");
-                permissions.add("public_profile");
+                        break;
 
-                Backendless.UserService.loginWithFacebookSdk(MainActivity.this, facebookFieldsMappings, permissions, callbackManager, new AsyncCallback<BackendlessUser>() {
-                    @Override
-                    public void handleResponse(BackendlessUser backendlessUser) {
-                        Toast toast = Toast.makeText(MainActivity.this, "Ok, User ID =" + backendlessUser.getUserId(), Toast.LENGTH_LONG);
-                        toast.show();
-                    }
+                    case 1:
+                        fragment = (BaseFragment) manager.findFragmentByTag(SearchFragment.class.getSimpleName());
+                        if (fragment == null) {
+                            fragment = SearchFragment.newInstance("");
+                        }
+                        break;
+                    case 2:
+                        fragment = (BaseFragment) manager.findFragmentByTag(ProfilFragment.class.getSimpleName());
+                        if (fragment == null) {
+                            fragment = ProfilFragment.newInstance();
+                        }
+                        break;
 
-                    @Override
-                    public void handleFault(BackendlessFault backendlessFault) {
-                        Toast toast = Toast.makeText(MainActivity.this, backendlessFault.toString(), Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                });
-//                Backendless.UserService.login( emailField.getText().toString(), passwordField.getText().toString(), new DefaultCallback<BackendlessUser>( MainActivity.this )
-//                Backendless.UserService.login("serifenuruysal@gmail.com", "Samatya11", new DefaultCallback<BackendlessUser>(MainActivity.this) {
-//                    public void handleResponse(BackendlessUser backendlessUser) {
-//
-//                        super.handleResponse(backendlessUser);
-//                        startActivity(new Intent(getBaseContext(), LoggedInActivity.class));
-//                    }
-//                });
+
+                }
+                setFragment(fragment);
+                return true;
             }
         });
 
-        findViewById(R.id.registerButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getBaseContext(), RegisterActivity.class));
-            }
-        });
+        BaseFragment fragment = SearchFragment.newInstance("dd");
+        setFragment(fragment);
+
+
+
+
+
     }
 
-    public static void showAlert(final Activity context, String message) {
-        new AlertDialog.Builder(context).setTitle("An error occurred").setMessage(message).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                context.finish();
-            }
-        }).show();
+    public void setFragment(BaseFragment fragment) {
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_fragmentholder, fragment, fragment.getClass().getSimpleName());
+        fragmentTransaction.addToBackStack(fragment.getClass().getSimpleName());
+        fragmentTransaction.commit();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        startActivity(new Intent(getBaseContext(), LoggedInActivity.class));
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void openRecipieDetailFragment(BaseFragment fragmentOne, BaseFragment fragmentTwo) {
+        // Inflate transitions to apply
+        Transition changeTransform = TransitionInflater.from(this).
+                inflateTransition(R.transition.change_image_transform);
+        Transition explodeTransform = TransitionInflater.from(this).
+                inflateTransition(android.R.transition.explode);
+
+        // Setup exit transition on first fragment
+        fragmentOne.setSharedElementReturnTransition(changeTransform);
+        fragmentOne.setExitTransition(explodeTransform);
+
+        // Setup enter transition on second fragment
+        fragmentTwo.setSharedElementEnterTransition(changeTransform);
+        fragmentTwo.setEnterTransition(explodeTransform);
+
+        // Find the shared element (in Fragment A)
+        ImageView ivProfile = (ImageView) findViewById(R.id.title_icon);
+
+        // Add second fragment by replacing first
+        FragmentTransaction fragmentTransaction = manager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_fragmentholder, fragmentTwo, fragmentTwo.getClass().getSimpleName())
+                .addToBackStack(fragmentTwo.getClass().getSimpleName());
+//                .addSharedElement(ivProfile,fragmentTwo.getClass().getSimpleName());
+        // Apply the transaction
+        fragmentTransaction.commit();
     }
+
+
 }

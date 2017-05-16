@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,44 +8,83 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_2x"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/card_margin"
+
         android:elevation="3dp"
         card_view:cardCornerRadius="@dimen/card_album_radius">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/size_x"
-            android:paddingTop="@dimen/size_x">
+            android:layout_height="wrap_content">
 
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/thumbnail"
-                android:layout_width="@dimen/card_image_size"
-                android:layout_height="@dimen/card_image_size"
-                app:civ_border_color="#6e7275"
-                app:civ_border_width="4dp"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/size_2x"
-                android:layout_marginTop="43dp" />
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginBottom="@dimen/size_2x"
-               >
+                android:layout_margin="@dimen/card_margin"
+                android:layout_marginBottom="@dimen/size_2x">
+
+                <RelativeLayout
+                    android:id="@+id/titleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/size_x">
+
+                    <ImageView
+                        android:id="@+id/title_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/size_x"
+                        android:src="@drawable/ic_plate_fork_and_knife" />
+
+                    <com.soulkitchen.health.view.CustomTextView
+                        android:id="@+id/title"
+                        style="@style/MyTextStyleGreyBold_24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/size_x"
+                        android:layout_marginRight="@dimen/size_x"
+                        android:layout_toRightOf="@id/title_icon"
+                        android:text="hebelele" />
+
+                    <com.nightonke.boommenu.BoomMenuButton
+                        android:id="@+id/bmb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="visible"
+                        app:bmb_buttonEnum="textOutsideCircle"
+                        app:bmb_buttonPlaceEnum="buttonPlace_sc_4_1"
+                        app:bmb_inList="true"
+                        app:bmb_piecePlaceEnum="piecePlace_dot_4_1"
+                        app:bmb_shareLine1Color="@android:color/holo_blue_light"
+                        app:bmb_shareLine2Color="@android:color/holo_orange_light" />
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/bluredView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/DarkGrayWithAlphaMin" />
+                    android:layout_height="0.5dp"
+                    android:layout_below="@+id/titleLayout"
+                    android:background="@color/DarkGrayWithAlphaMin"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -55,10 +94,11 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:gravity="center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <com.soulkitchen.health.view.CustomTextView
-                        android:id="@+id/title"
+                        android:id="@+id/title2"
                         style="@style/MyTextStyleWhiteBold_22"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -77,24 +117,22 @@
                         android:paddingBottom="@dimen/songs_count_padding_bottom"
                         android:paddingLeft="@dimen/size_2x"
                         android:paddingRight="@dimen/album_title_padding"
-                        android:text="hebelele" />
+                        android:text="hebelele"
+                        android:visibility="gone" />
                 </LinearLayout>
 
 
-                <com.nightonke.boommenu.BoomMenuButton
-                    android:id="@+id/bmb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-
-                    android:layout_marginEnd="17dp"
-                    android:layout_marginRight="17dp"
-                    app:bmb_buttonEnum="simpleCircle" />
-
             </RelativeLayout>
 
+
+            <com.flaviofaria.kenburnsview.KenBurnsView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_below="@+id/relativeLayout"
+                android:layout_centerHorizontal="true"
+                android:elevation="3dp"
+                />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -111,8 +149,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_calories" />
 
@@ -127,18 +165,19 @@
 
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                   android:layout_centerInParent="true"
+                    android:layout_centerInParent="true"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_toLeftOf="@+id/likecount"
-                        android:src="@drawable/ic_heart" />
+                        android:src="@drawable/ic_heart_gray" />
 
                     <com.soulkitchen.health.view.CustomTextView
                         android:id="@+id/likecount"
@@ -158,14 +197,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:layout_toLeftOf="@+id/cooktime"
                         android:src="@drawable/ic_stopwatch" />
 
                     <com.soulkitchen.health.view.CustomTextView
-                        android:id="@+id/cooktime"
+                        android:id="@+id/cooktimee"
                         style="@style/MyTextStyleGreyLight_18"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,4 +219,37 @@
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/size_3x"
+        android:paddingLeft="@dimen/size_x"
+        android:paddingRight="@dimen/size_x"
+        android:visibility="gone">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/quila"
+            app:border_color="@android:color/white"
+            app:border_width="2dp"
+            app:finalHeight="@dimen/image_final_width"
+            app:finalYPosition="2dp"
+            app:layout_behavior="com.soulkitchen.health.view.AvatarImageBehavior"
+            app:startHeight="2dp"
+            app:startToolbarPosition="2dp"
+            app:startXPosition="2dp" />
+
+        <com.soulkitchen.health.view.CustomTextView
+            style="@style/MyTextStyleGreyLight_18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/size_x"
+            android:text="by Healthy Food" />
+
+    </LinearLayout>
 </LinearLayout>

@@ -2,21 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/action_home"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="@string/text_favorites"
+        android:title="@string/text_Home"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/action_search"
         android:enabled="true"
-        android:icon="@drawable/ic_note"
-        android:title="@string/text_schedules"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/text_search"
         app:showAsAction="ifRoom" />
+
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/action_profil"
         android:enabled="true"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/text_music"
+        android:icon="@drawable/ic_user"
+        android:title="@string/text_profi"
         app:showAsAction="ifRoom" />
+
 </menu>

@@ -1,415 +1,408 @@
 package com.soulkitchen.health.pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.backendless.Backendless;
 import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.persistence.BackendlessDataQuery;
 
-public class Recipies
-{
-  private Integer ratings;
-  private String writer;
-  private Integer saturates;
-  private java.util.Date created;
-  private java.util.Date updated;
-  private Double recipieId;
-  private Integer protein;
-  private String imageUrl;
-  private String objectId;
-  private Integer sugars;
-  private Integer categoryId;
-  private String title;
-  private String subCategory;
-  private Integer energy;
-  private String ownerId;
-  private Integer fat;
-  private Integer serves;
-  private String recipieTips;
-  private Integer salt;
-  private Integer kcal;
-  private Integer cookTime;
-  private Integer fibre;
-  private String level;
-  private Integer prepTime;
-  private Integer carbs;
-  public Integer getRatings()
-  {
-    return ratings;
-  }
+public class Recipies implements Parcelable {
+    private Integer ratings;
+    private String writer;
+    private Integer saturates;
+    private java.util.Date created;
+    private java.util.Date updated;
+    private Double recipieId;
+    private Integer protein;
+    private String imageUrl;
+    private String objectId;
+    private Integer sugars;
+    private Integer likeCount;
+    private Integer categoryId;
+    private Integer saveCount;
+    private String title;
+    private String subCategory;
+    private Integer energy;
+    private String ownerId;
+    private Integer fat;
+    private Integer serves;
+    private String recipieTips;
+    private Integer salt;
+    private Integer kcal;
+    private Integer cookTime;
+    private Integer fibre;
+    private String level;
+    private Integer prepTime;
+    private Integer carbs;
+    private String likeUsers;
 
-  public void setRatings( Integer ratings )
-  {
-    this.ratings = ratings;
-  }
-
-  public String getWriter()
-  {
-    return writer;
-  }
-
-  public void setWriter( String writer )
-  {
-    this.writer = writer;
-  }
-
-  public Integer getSaturates()
-  {
-    return saturates;
-  }
-
-  public void setSaturates( Integer saturates )
-  {
-    this.saturates = saturates;
-  }
-
-  public java.util.Date getCreated()
-  {
-    return created;
-  }
-
-  public java.util.Date getUpdated()
-  {
-    return updated;
-  }
-
-  public Double getRecipieId()
-  {
-    return recipieId;
-  }
-
-  public void setRecipieId( Double recipieId )
-  {
-    this.recipieId = recipieId;
-  }
-
-  public Integer getProtein()
-  {
-    return protein;
-  }
-
-  public void setProtein( Integer protein )
-  {
-    this.protein = protein;
-  }
-
-  public String getImageUrl()
-  {
-    return imageUrl;
-  }
-
-  public void setImageUrl( String imageUrl )
-  {
-    this.imageUrl = imageUrl;
-  }
-
-  public String getObjectId()
-  {
-    return objectId;
-  }
-
-  public Integer getSugars()
-  {
-    return sugars;
-  }
-
-  public void setSugars( Integer sugars )
-  {
-    this.sugars = sugars;
-  }
-
-  public Integer getCategoryId()
-  {
-    return categoryId;
-  }
-
-  public void setCategoryId( Integer categoryId )
-  {
-    this.categoryId = categoryId;
-  }
-
-  public String getTitle()
-  {
-    return title;
-  }
-
-  public void setTitle( String title )
-  {
-    this.title = title;
-  }
-
-  public String getSubCategory()
-  {
-    return subCategory;
-  }
-
-  public void setSubCategory( String subCategory )
-  {
-    this.subCategory = subCategory;
-  }
-
-  public Integer getEnergy()
-  {
-    return energy;
-  }
-
-  public void setEnergy( Integer energy )
-  {
-    this.energy = energy;
-  }
-
-  public String getOwnerId()
-  {
-    return ownerId;
-  }
-
-  public Integer getFat()
-  {
-    return fat;
-  }
-
-  public void setFat( Integer fat )
-  {
-    this.fat = fat;
-  }
-
-  public Integer getServes()
-  {
-    return serves;
-  }
-
-  public void setServes( Integer serves )
-  {
-    this.serves = serves;
-  }
-
-  public String getRecipieTips()
-  {
-    return recipieTips;
-  }
-
-  public void setRecipieTips( String recipieTips )
-  {
-    this.recipieTips = recipieTips;
-  }
-
-  public Integer getSalt()
-  {
-    return salt;
-  }
-
-  public void setSalt( Integer salt )
-  {
-    this.salt = salt;
-  }
-
-  public Integer getKcal()
-  {
-    return kcal;
-  }
-
-  public void setKcal( Integer kcal )
-  {
-    this.kcal = kcal;
-  }
-
-  public Integer getCookTime()
-  {
-    return cookTime;
-  }
-
-  public void setCookTime( Integer cookTime )
-  {
-    this.cookTime = cookTime;
-  }
-
-  public Integer getFibre()
-  {
-    return fibre;
-  }
-
-  public void setFibre( Integer fibre )
-  {
-    this.fibre = fibre;
-  }
-
-  public String getLevel()
-  {
-    return level;
-  }
-
-  public void setLevel( String level )
-  {
-    this.level = level;
-  }
-
-  public Integer getPrepTime()
-  {
-    return prepTime;
-  }
-
-  public void setPrepTime( Integer prepTime )
-  {
-    this.prepTime = prepTime;
-  }
-
-  public Integer getCarbs()
-  {
-    return carbs;
-  }
-
-  public void setCarbs( Integer carbs )
-  {
-    this.carbs = carbs;
-  }
-
-                                                    
-  public Recipies save()
-  {
-    return Backendless.Data.of( Recipies.class ).save( this );
-  }
-
-  public Future<Recipies> saveAsync()
-  {
-    if( Backendless.isAndroid() )
-    {
-      throw new UnsupportedOperationException( "Using this method is restricted in Android" );
+    public Recipies() {
     }
-    else
-    {
-      Future<Recipies> future = new Future<Recipies>();
-      Backendless.Data.of( Recipies.class ).save( this, future );
 
-      return future;
+    protected Recipies(Parcel in) {
+        writer = in.readString();
+        imageUrl = in.readString();
+        objectId = in.readString();
+        title = in.readString();
+        subCategory = in.readString();
+        ownerId = in.readString();
+        recipieTips = in.readString();
+        level = in.readString();
+        likeUsers = in.readString();
     }
-  }
 
-  public void saveAsync( AsyncCallback<Recipies> callback )
-  {
-    Backendless.Data.of( Recipies.class ).save( this, callback );
-  }
+    public static final Creator<Recipies> CREATOR = new Creator<Recipies>() {
+        @Override
+        public Recipies createFromParcel(Parcel in) {
+            return new Recipies(in);
+        }
 
-  public Long remove()
-  {
-    return Backendless.Data.of( Recipies.class ).remove( this );
-  }
+        @Override
+        public Recipies[] newArray(int size) {
+            return new Recipies[size];
+        }
+    };
 
-  public Future<Long> removeAsync()
-  {
-    if( Backendless.isAndroid() )
-    {
-      throw new UnsupportedOperationException( "Using this method is restricted in Android" );
+    public Integer getRatings() {
+        return ratings;
     }
-    else
-    {
-      Future<Long> future = new Future<Long>();
-      Backendless.Data.of( Recipies.class ).remove( this, future );
 
-      return future;
+    public void setRatings(Integer ratings) {
+        this.ratings = ratings;
     }
-  }
 
-  public void removeAsync( AsyncCallback<Long> callback )
-  {
-    Backendless.Data.of( Recipies.class ).remove( this, callback );
-  }
-
-  public static Recipies findById(String id )
-  {
-    return Backendless.Data.of( Recipies.class ).findById( id );
-  }
-
-  public static Future<Recipies> findByIdAsync(String id )
-  {
-    if( Backendless.isAndroid() )
-    {
-      throw new UnsupportedOperationException( "Using this method is restricted in Android" );
+    public String getWriter() {
+        return writer;
     }
-    else
-    {
-      Future<Recipies> future = new Future<Recipies>();
-      Backendless.Data.of( Recipies.class ).findById( id, future );
 
-      return future;
+    public void setWriter(String writer) {
+        this.writer = writer;
     }
-  }
 
-  public static void findByIdAsync( String id, AsyncCallback<Recipies> callback )
-  {
-    Backendless.Data.of( Recipies.class ).findById( id, callback );
-  }
-
-  public static Recipies findFirst()
-  {
-    return Backendless.Data.of( Recipies.class ).findFirst();
-  }
-
-  public static Future<Recipies> findFirstAsync()
-  {
-    if( Backendless.isAndroid() )
-    {
-      throw new UnsupportedOperationException( "Using this method is restricted in Android" );
+    public Integer getSaturates() {
+        return saturates;
     }
-    else
-    {
-      Future<Recipies> future = new Future<Recipies>();
-      Backendless.Data.of( Recipies.class ).findFirst( future );
 
-      return future;
+    public void setSaturates(Integer saturates) {
+        this.saturates = saturates;
     }
-  }
 
-  public static void findFirstAsync( AsyncCallback<Recipies> callback )
-  {
-    Backendless.Data.of( Recipies.class ).findFirst( callback );
-  }
-
-  public static Recipies findLast()
-  {
-    return Backendless.Data.of( Recipies.class ).findLast();
-  }
-
-  public static Future<Recipies> findLastAsync()
-  {
-    if( Backendless.isAndroid() )
-    {
-      throw new UnsupportedOperationException( "Using this method is restricted in Android" );
+    public java.util.Date getCreated() {
+        return created;
     }
-    else
-    {
-      Future<Recipies> future = new Future<Recipies>();
-      Backendless.Data.of( Recipies.class ).findLast( future );
 
-      return future;
+    public java.util.Date getUpdated() {
+        return updated;
     }
-  }
 
-  public static void findLastAsync( AsyncCallback<Recipies> callback )
-  {
-    Backendless.Data.of( Recipies.class ).findLast( callback );
-  }
-
-  public static BackendlessCollection<Recipies> find(BackendlessDataQuery query )
-  {
-    return Backendless.Data.of( Recipies.class ).find( query );
-  }
-
-  public static Future<BackendlessCollection<Recipies>> findAsync(BackendlessDataQuery query )
-  {
-    if( Backendless.isAndroid() )
-    {
-      throw new UnsupportedOperationException( "Using this method is restricted in Android" );
+    public String getLikeUsers() {
+        return likeUsers;
     }
-    else
-    {
-      Future<BackendlessCollection<Recipies>> future = new Future<BackendlessCollection<Recipies>>();
-      Backendless.Data.of( Recipies.class ).find( query, future );
 
-      return future;
+    public void setLikeUsers(String likeUsers) {
+        this.likeUsers = likeUsers;
     }
-  }
 
-  public static void findAsync(BackendlessDataQuery query, AsyncCallback<BackendlessCollection<Recipies>> callback )
-  {
-    Backendless.Data.of( Recipies.class ).find( query, callback );
-  }
+    public Double getRecipieId() {
+        return recipieId;
+    }
+
+    public void setRecipieId(Double recipieId) {
+        this.recipieId = recipieId;
+    }
+
+    public Integer getProtein() {
+        return protein;
+    }
+
+    public void setProtein(Integer protein) {
+        this.protein = protein;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public Integer getSugars() {
+        return sugars;
+    }
+
+    public void setSugars(Integer sugars) {
+        this.sugars = sugars;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Integer getSaveCount() {
+        return saveCount;
+    }
+
+    public void setSaveCount(Integer saveCount) {
+        this.saveCount = saveCount;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(String subCategory) {
+        this.subCategory = subCategory;
+    }
+
+    public Integer getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(Integer energy) {
+        this.energy = energy;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public Integer getFat() {
+        return fat;
+    }
+
+    public void setFat(Integer fat) {
+        this.fat = fat;
+    }
+
+    public Integer getServes() {
+        return serves;
+    }
+
+    public void setServes(Integer serves) {
+        this.serves = serves;
+    }
+
+    public String getRecipieTips() {
+        return recipieTips;
+    }
+
+    public void setRecipieTips(String recipieTips) {
+        this.recipieTips = recipieTips;
+    }
+
+    public Integer getSalt() {
+        return salt;
+    }
+
+    public void setSalt(Integer salt) {
+        this.salt = salt;
+    }
+
+    public Integer getKcal() {
+        return kcal;
+    }
+
+    public void setKcal(Integer kcal) {
+        this.kcal = kcal;
+    }
+
+    public Integer getCookTime() {
+        return cookTime;
+    }
+
+    public void setCookTime(Integer cookTime) {
+        this.cookTime = cookTime;
+    }
+
+    public Integer getFibre() {
+        return fibre;
+    }
+
+    public void setFibre(Integer fibre) {
+        this.fibre = fibre;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public Integer getPrepTime() {
+        return prepTime;
+    }
+
+    public void setPrepTime(Integer prepTime) {
+        this.prepTime = prepTime;
+    }
+
+    public Integer getCarbs() {
+        return carbs;
+    }
+
+    public void setCarbs(Integer carbs) {
+        this.carbs = carbs;
+    }
+
+
+    public Recipies save() {
+        return Backendless.Data.of(Recipies.class).save(this);
+    }
+
+    public Future<Recipies> saveAsync() {
+        if (Backendless.isAndroid()) {
+            throw new UnsupportedOperationException("Using this method is restricted in Android");
+        } else {
+            Future<Recipies> future = new Future<Recipies>();
+            Backendless.Data.of(Recipies.class).save(this, future);
+
+            return future;
+        }
+    }
+
+    public void saveAsync(AsyncCallback<Recipies> callback) {
+        Backendless.Data.of(Recipies.class).save(this, callback);
+    }
+
+    public Long remove() {
+        return Backendless.Data.of(Recipies.class).remove(this);
+    }
+
+    public Future<Long> removeAsync() {
+        if (Backendless.isAndroid()) {
+            throw new UnsupportedOperationException("Using this method is restricted in Android");
+        } else {
+            Future<Long> future = new Future<Long>();
+            Backendless.Data.of(Recipies.class).remove(this, future);
+
+            return future;
+        }
+    }
+
+    public void removeAsync(AsyncCallback<Long> callback) {
+        Backendless.Data.of(Recipies.class).remove(this, callback);
+    }
+
+    public static Recipies findById(String id) {
+        return Backendless.Data.of(Recipies.class).findById(id);
+    }
+
+    public static Future<Recipies> findByIdAsync(String id) {
+        if (Backendless.isAndroid()) {
+            throw new UnsupportedOperationException("Using this method is restricted in Android");
+        } else {
+            Future<Recipies> future = new Future<Recipies>();
+            Backendless.Data.of(Recipies.class).findById(id, future);
+
+            return future;
+        }
+    }
+
+    public static void findByIdAsync(String id, AsyncCallback<Recipies> callback) {
+        Backendless.Data.of(Recipies.class).findById(id, callback);
+    }
+
+    public static Recipies findFirst() {
+        return Backendless.Data.of(Recipies.class).findFirst();
+    }
+
+    public static Future<Recipies> findFirstAsync() {
+        if (Backendless.isAndroid()) {
+            throw new UnsupportedOperationException("Using this method is restricted in Android");
+        } else {
+            Future<Recipies> future = new Future<Recipies>();
+            Backendless.Data.of(Recipies.class).findFirst(future);
+
+            return future;
+        }
+    }
+
+    public static void findFirstAsync(AsyncCallback<Recipies> callback) {
+        Backendless.Data.of(Recipies.class).findFirst(callback);
+    }
+
+    public static Recipies findLast() {
+        return Backendless.Data.of(Recipies.class).findLast();
+    }
+
+    public static Future<Recipies> findLastAsync() {
+        if (Backendless.isAndroid()) {
+            throw new UnsupportedOperationException("Using this method is restricted in Android");
+        } else {
+            Future<Recipies> future = new Future<Recipies>();
+            Backendless.Data.of(Recipies.class).findLast(future);
+
+            return future;
+        }
+    }
+
+    public static void findLastAsync(AsyncCallback<Recipies> callback) {
+        Backendless.Data.of(Recipies.class).findLast(callback);
+    }
+
+    public static BackendlessCollection<Recipies> find(BackendlessDataQuery query) {
+        return Backendless.Data.of(Recipies.class).find(query);
+    }
+
+    public static Future<BackendlessCollection<Recipies>> findAsync(BackendlessDataQuery query) {
+        if (Backendless.isAndroid()) {
+            throw new UnsupportedOperationException("Using this method is restricted in Android");
+        } else {
+            Future<BackendlessCollection<Recipies>> future = new Future<BackendlessCollection<Recipies>>();
+            Backendless.Data.of(Recipies.class).find(query, future);
+
+            return future;
+        }
+    }
+
+    public static void findAsync(BackendlessDataQuery query, AsyncCallback<BackendlessCollection<Recipies>> callback) {
+        Backendless.Data.of(Recipies.class).find(query, callback);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(writer);
+        dest.writeString(imageUrl);
+        dest.writeString(objectId);
+        dest.writeString(title);
+        dest.writeString(subCategory);
+        dest.writeString(ownerId);
+        dest.writeString(recipieTips);
+        dest.writeString(level);
+        dest.writeString(likeUsers);
+    }
 }
