@@ -72,6 +72,8 @@ public class PreLoginActivity extends Activity {
                 super.handleResponse( isValidLogin );
             }
         });
+
+        onLoginWithFacebookButtonClicked();
     }
 
     private void initUI()

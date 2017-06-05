@@ -87,7 +87,6 @@
                     android:visibility="visible" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -98,7 +97,6 @@
                     android:visibility="gone">
 
                     <com.soulkitchen.health.view.CustomTextView
-                        android:id="@+id/title2"
                         style="@style/MyTextStyleWhiteBold_22"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

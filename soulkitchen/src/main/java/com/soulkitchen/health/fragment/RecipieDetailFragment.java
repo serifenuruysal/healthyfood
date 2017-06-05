@@ -45,16 +45,16 @@ public class RecipieDetailFragment extends BaseFragment    implements AppBarLayo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_recipie_detail, container, false);
-        mToolbar        = (Toolbar) view.findViewById(R.id.main_toolbar);
-        mTitle          = (TextView) view.findViewById(R.id.main_textview_title);
-        mTitleContainer = (LinearLayout) view.findViewById(R.id.main_linearlayout_title);
-        mAppBarLayout   = (AppBarLayout) view.findViewById(R.id.main_appbar);
-        if (mAppBarLayout!=null){
-            mAppBarLayout.addOnOffsetChangedListener(this);
-        }
-        if (mToolbar != null) {
-            mToolbar.inflateMenu(R.menu.menu_recipie);
-        }
+//        mToolbar        = (Toolbar) view.findViewById(R.id.main_toolbar);
+//        mTitle          = (TextView) view.findViewById(R.id.main_textview_title);
+//        mTitleContainer = (LinearLayout) view.findViewById(R.id.main_linearlayout_title);
+//        mAppBarLayout   = (AppBarLayout) view.findViewById(R.id.main_appbar);
+//        if (mAppBarLayout!=null){
+//            mAppBarLayout.addOnOffsetChangedListener(this);
+//        }
+//        if (mToolbar != null) {
+//            mToolbar.inflateMenu(R.menu.menu_recipie);
+//        }
 
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
         return view;

@@ -20,7 +20,6 @@
 <resources>
     <dimen name="default_margin">50dp</dimen>
     <dimen name="small_padding">32dp</dimen>
-    <dimen name="bit_text">40sp</dimen>
     <dimen name="normal_text">30sp</dimen>
     <dimen name="button_width">180dp</dimen>
     <dimen name="button_height">65dp</dimen>

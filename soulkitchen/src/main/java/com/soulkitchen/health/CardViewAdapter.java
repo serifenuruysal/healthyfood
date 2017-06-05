@@ -8,12 +8,20 @@ import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.backendless.Backendless;
+import com.backendless.BackendlessCollection;
+import com.backendless.BackendlessUser;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
+import com.backendless.persistence.QueryOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -24,8 +32,11 @@ import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
+import com.soulkitchen.health.fragment.CategoryFragment;
 import com.soulkitchen.health.pojo.Recipies;
+import com.soulkitchen.health.pojo.SavedRecipies;
 import com.soulkitchen.health.utils.Session;
+import com.soulkitchen.health.utils.Utils;
 import com.soulkitchen.health.view.CustomTextView;
 
 import java.io.File;
@@ -43,6 +54,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
     private Context mContext;
     private List<Recipies> recipieList;
     private CardViewAdapterListener listener;
+    private boolean isFromProfil;
 
     public void setList(List<Recipies> list) {
         this.recipieList = list;
@@ -71,12 +83,14 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
 
     public interface CardViewAdapterListener {
         public void onClickCard(Recipies recipie);
+        public void onClickActionFinish();
     }
 
-    public CardViewAdapter(Context mContext, List<Recipies> recipieList, CardViewAdapterListener listener) {
+    public CardViewAdapter(Context mContext, List<Recipies> recipieList, CardViewAdapterListener listener,boolean isFromProfil) {
         this.mContext = mContext;
         this.recipieList = recipieList;
         this.listener=listener;
+        this.isFromProfil=isFromProfil;
     }
 
     @Override
@@ -135,7 +149,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
 
         holder.bmb.addBuilder(new TextOutsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_download)
-                .normalText("KAYDET").listener(new OnBMClickListener() {
+                .normalText(isFromProfil?"LİSTEMDEN ÇIKAR":"LİSTEME EKLE").listener(new OnBMClickListener() {
                     @Override
                     public void onBoomButtonClick(int index) {
                       saveRecipie(album,holder);
@@ -156,9 +170,10 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
             Glide.with(mContext).load(album.getImageUrl()).centerCrop().bitmapTransform(blurTransformation).into(holder.bluredView);
 
     }
-    private void likeRecipie(Recipies recipies,final MyViewHolder holder) {
+    private void likeRecipie(final Recipies recipies,final MyViewHolder holder) {
         final int newCount=recipies.getLikeCount()+1;
-        recipies.setLikeUsers(recipies.getLikeUsers()+","+ Session.getSession().getUser().getUserId());
+
+        recipies.setLikeUsers(recipies.getLikeUsers()!=null?(recipies.getLikeUsers()+","): ""+Session.getSession().getUser().getUserId());
         recipies.setLikeCount(newCount);
         recipies.saveAsync( new DefaultCallback<Recipies>( mContext )
         {
@@ -166,18 +181,61 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
             public void handleResponse( Recipies response )
             {
                 holder.likeCount.setText(newCount+"");
+
                 super.handleResponse( response );
 
             }
         } );
+
     }
-    private void saveRecipie(Recipies recipies,final MyViewHolder holder) {
-        recipies.setSaveCount(recipies.getSaveCount()+1);
+    private void saveRecipie(final Recipies recipies,final MyViewHolder holder) {
+        int newCount=0;
+        if (isFromProfil){
+            newCount=recipies.getSaveCount()-1;
+        }else{
+            newCount=recipies.getSaveCount()+1;
+        }
+        recipies.setSaveCount(newCount);
         recipies.saveAsync( new DefaultCallback<Recipies>( mContext )
         {
             @Override
             public void handleResponse( Recipies response )
             {
+
+                if (isFromProfil){
+                    Backendless.Persistence.of( SavedRecipies.class ).remove(new SavedRecipies(recipies.getObjectId() + ""), new AsyncCallback<Long>() {
+                        @Override
+                        public void handleResponse(Long aLong) {
+                            listener.onClickActionFinish();
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault backendlessFault) {
+
+                        }
+                    });
+
+                }else{
+
+//                    String whereClause = "ownerId ='"+(String) Session.getSession().getUser().getUserId()+"'";
+//                    BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+//                    dataQuery.setWhereClause( whereClause );
+                    Backendless.Persistence.save(new SavedRecipies(recipies.getObjectId()+""), new AsyncCallback<SavedRecipies>() {
+                        @Override
+                        public void handleResponse(SavedRecipies savedRecipies) {
+
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault backendlessFault) {
+
+                        }
+                    });
+                }
+
+
+
+
                 super.handleResponse( response );
 
             }

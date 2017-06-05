@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by serifenuruysal on 03/03/17.
@@ -43,8 +47,7 @@ public class Utils {
             }
         } catch (PackageManager.NameNotFoundException e1) {
             Log.e("Name not found", e1.toString());
-        }
-        catch (NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             Log.e("No such an algorithm", e.toString());
         } catch (Exception e) {
             Log.e("Exception", e.toString());
@@ -71,5 +74,24 @@ public class Utils {
                 destination.close();
             }
         }
+    }
+
+    public static String makeUniqSavesUserId(String savedUsers) {
+        String[] usersId = savedUsers.split(",");
+        if (usersId.length > 0) {
+            Set<String> set = new HashSet<String>();
+            for (String seti:usersId){
+                set.add(seti.trim());
+            }
+
+            return set.toString().trim().replace("[","").replace("]","");
+        }
+        return "";
+    }
+
+    public static String removeItemOnString(String mainString, String objectId) {
+        mainString=mainString.replace("'"+objectId+"'", "").replace(",,",",");
+
+        return  mainString;
     }
 }

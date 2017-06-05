@@ -33,6 +33,7 @@ public static final String TAG="CategoryFragment";
     private CardViewAdapter adapter;
     private Integer categoryId;
 
+
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
     public static CategoryFragment newInstance(Integer categoryId) {
@@ -87,7 +88,12 @@ public static final String TAG="CategoryFragment";
             public void onClickCard(Recipies recipie) {
                 CategoryFragment.this.setFragment(CategoryFragment.this,RecipieDetailFragment.newInstance(recipie));
             }
-        });
+
+            @Override
+            public void onClickActionFinish() {
+
+            }
+        },false);
         mRecyclerView.setAdapter(adapter);
     }
 }
