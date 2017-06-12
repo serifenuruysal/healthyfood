@@ -12,7 +12,7 @@ import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.BackendlessDataQuery;
-import com.soulkitchen.health.CardViewAdapter;
+import com.soulkitchen.health.adapters.CardViewAdapter;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
 

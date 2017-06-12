@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.backendless.Backendless;
-import com.soulkitchen.health.DefaultCallback;
+import com.soulkitchen.health.server.DefaultCallback;
 import com.soulkitchen.health.R;
 
 public class RestorePasswordActivity extends Activity

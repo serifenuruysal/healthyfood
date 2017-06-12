@@ -1,4 +1,4 @@
-package com.soulkitchen.health;
+package com.soulkitchen.health.constants;
 
 public class Defaults {
     public static final String APPLICATION_ID = "43DF2E4F-1BFF-EA93-FFB6-E987C6243600";

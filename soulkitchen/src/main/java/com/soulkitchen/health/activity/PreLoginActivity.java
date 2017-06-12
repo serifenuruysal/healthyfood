@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
-import com.soulkitchen.health.DefaultCallback;
-import com.soulkitchen.health.Defaults;
+import com.soulkitchen.health.server.DefaultCallback;
+import com.soulkitchen.health.constants.Defaults;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.utils.Session;
 import com.soulkitchen.health.utils.SocialCallback;

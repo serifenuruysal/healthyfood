@@ -1,4 +1,4 @@
-package com.soulkitchen.health;
+package com.soulkitchen.health.server;
 
 import android.app.ProgressDialog;
 import android.content.Context;

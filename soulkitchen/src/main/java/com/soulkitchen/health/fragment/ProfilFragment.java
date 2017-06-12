@@ -10,9 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
@@ -24,16 +21,13 @@ import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.soulkitchen.health.CardViewAdapter;
+import com.soulkitchen.health.adapters.CardViewAdapter;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
 import com.soulkitchen.health.pojo.SavedRecipies;
 import com.soulkitchen.health.utils.Session;
-import com.soulkitchen.health.utils.Utils;
 
 import java.util.List;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by serifenuruysal on 07/03/17.

@@ -1,4 +1,4 @@
-package com.soulkitchen.health;
+package com.soulkitchen.health.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -16,12 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.backendless.Backendless;
-import com.backendless.BackendlessCollection;
-import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
-import com.backendless.persistence.QueryOptions;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -32,11 +27,11 @@ import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.soulkitchen.health.fragment.CategoryFragment;
+import com.soulkitchen.health.server.DefaultCallback;
+import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
 import com.soulkitchen.health.pojo.SavedRecipies;
 import com.soulkitchen.health.utils.Session;
-import com.soulkitchen.health.utils.Utils;
 import com.soulkitchen.health.view.CustomTextView;
 
 import java.io.File;

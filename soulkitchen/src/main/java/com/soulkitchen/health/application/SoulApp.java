@@ -1,4 +1,4 @@
-package com.soulkitchen.health;
+package com.soulkitchen.health.application;
 
 import android.app.Application;
 import android.content.ComponentCallbacks;
@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.backendless.Backendless;
 import com.facebook.FacebookSdk;
+import com.soulkitchen.health.constants.Defaults;
 
 /**
  * Created by serifenuruysal on 12/03/17.

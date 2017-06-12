@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
-import com.soulkitchen.health.DefaultCallback;
+import com.soulkitchen.health.server.DefaultCallback;
 import com.soulkitchen.health.R;
 
 import java.text.SimpleDateFormat;
