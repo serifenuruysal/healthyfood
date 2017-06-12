@@ -239,6 +239,8 @@ public class PreLoginActivity extends Activity {
                 Session.getSession().setUser(backendlessUser);
                 startActivity( new Intent( getBaseContext(), MainActivity.class ) );
                 finish();
+
+
             }
         });
     }

@@ -152,7 +152,12 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
                 .normalText(isFromProfil?"LİSTEMDEN ÇIKAR":"LİSTEME EKLE").listener(new OnBMClickListener() {
                     @Override
                     public void onBoomButtonClick(int index) {
-                      saveRecipie(album,holder);
+                        if (isFromProfil){
+                            removeSavedRecipie(album);
+                        }else{
+                            saveRecipie(album,holder);
+                        }
+
                     }
                 }).imagePadding(new Rect(20, 20, 20, 20)));
 
@@ -170,6 +175,21 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
             Glide.with(mContext).load(album.getImageUrl()).centerCrop().bitmapTransform(blurTransformation).into(holder.bluredView);
 
     }
+
+    private void removeSavedRecipie(Recipies recipies) {
+        Backendless.Persistence.of(SavedRecipies.class).remove(new SavedRecipies(recipies.getObjectId()+""), new AsyncCallback<Long>() {
+            @Override
+            public void handleResponse(Long response) {
+
+            }
+
+            @Override
+            public void handleFault(BackendlessFault backendlessFault) {
+
+            }
+        });
+    }
+
     private void likeRecipie(final Recipies recipies,final MyViewHolder holder) {
         final int newCount=recipies.getLikeCount()+1;
 

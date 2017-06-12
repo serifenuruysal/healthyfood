@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "802699998583",
+    "project_id": "soul-kitchen-health"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802699998583:android:3121bb667ad4a749",
+        "android_client_info": {
+          "package_name": "com.soulkitchen.health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802699998583-ikrgvuv72r0miivo7405ijc8fpms6o8d.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "802699998583-v2pi5afo4vu7too2tok37hppakbaqb9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.soulkitchen.health",
+            "certificate_hash": "4f06ce10873a5500e379a76d1811adf0d04103cc"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpkrVbRuhayieQL-QX2qKA5CSAqjbreas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
