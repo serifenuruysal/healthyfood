@@ -17,7 +17,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.fragment.BaseFragment;
-import com.soulkitchen.health.fragment.ProfilFragment;
+import com.soulkitchen.health.fragment.ProfilSavedTabFragment;
 import com.soulkitchen.health.fragment.SearchFragment;
 
 /**
@@ -100,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case 2:
-                        fragment = (BaseFragment) manager.findFragmentByTag(ProfilFragment.class.getSimpleName());
+                        fragment = (BaseFragment) manager.findFragmentByTag(ProfilSavedTabFragment.class.getSimpleName());
                         if (fragment == null) {
-                            fragment = ProfilFragment.newInstance();
+                            fragment = ProfilSavedTabFragment.newInstance();
                         }
                         break;
 
@@ -115,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
         BaseFragment fragment = SearchFragment.newInstance("dd");
         setFragment(fragment);
-
-
-
 
 
     }

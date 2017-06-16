@@ -1,8 +1,6 @@
 package com.soulkitchen.health.fragment;
 
-import android.graphics.Rect;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +13,6 @@ import com.backendless.BackendlessCollection;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.BackendlessDataQuery;
-import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
-import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
-import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
-import com.nightonke.boommenu.BoomMenuButton;
-import com.nightonke.boommenu.ButtonEnum;
-import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import com.soulkitchen.health.adapters.CardViewAdapter;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
@@ -33,17 +25,15 @@ import java.util.List;
  * Created by serifenuruysal on 07/03/17.
  */
 
-public class ProfilFragment extends BaseFragment {
+public class ProfilSavedTabFragment extends BaseFragment {
 
-    private AppBarLayout mAppBarLayout;
-    private Toolbar mToolbar;
+//    private Toolbar mToolbar;
     private List<Recipies> recipieList;
     private CardViewAdapter adapter;
     RecyclerView mRecyclerView;
-    BoomMenuButton bmb;
 
-    public static ProfilFragment newInstance() {
-        ProfilFragment f = new ProfilFragment();
+    public static ProfilSavedTabFragment newInstance() {
+        ProfilSavedTabFragment f = new ProfilSavedTabFragment();
         Bundle localBundle = new Bundle(1);
         f.setArguments(localBundle);
         return f;
@@ -53,12 +43,10 @@ public class ProfilFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profil, container, false);
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mAppBarLayout = (AppBarLayout) view.findViewById(R.id.appbar);
+        View view = inflater.inflate(R.layout.fragment_profil_saved_tab, container, false);
+//        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        mToolbar.inflateMenu(R.menu.menu_recipie);
-        bmb = (BoomMenuButton) view.findViewById(R.id.bmb);
+//        mToolbar.inflateMenu(R.menu.menu_recipie);
         return view;
     }
 
@@ -71,7 +59,7 @@ public class ProfilFragment extends BaseFragment {
         adapter = new CardViewAdapter(getContext(), recipieList, new CardViewAdapter.CardViewAdapterListener() {
             @Override
             public void onClickCard(Recipies recipie) {
-                ProfilFragment.this.setFragment(ProfilFragment.this, RecipieDetailFragment.newInstance(recipie));
+                ProfilSavedTabFragment.this.setFragment(ProfilSavedTabFragment.this, RecipieDetailFragment.newInstance(recipie));
             }
 
             @Override
@@ -80,18 +68,6 @@ public class ProfilFragment extends BaseFragment {
             }
         }, true);
 
-        assert bmb != null;
-        bmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
-        bmb.setPiecePlaceEnum(PiecePlaceEnum.DOT_1);
-        bmb.setButtonPlaceEnum(ButtonPlaceEnum.SC_1);
-
-        bmb.addBuilder(new TextOutsideCircleButton.Builder()
-                .normalImageRes(R.drawable.ic_list)
-                .normalText("DETAY").listener(new OnBMClickListener() {
-                    @Override
-                    public void onBoomButtonClick(int index) {
-                    }
-                }).imagePadding(new Rect(20, 20, 20, 20)));
 
 
         mRecyclerView.setAdapter(adapter);
