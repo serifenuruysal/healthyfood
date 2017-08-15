@@ -17,7 +17,7 @@
   -->
 
 <resources>
-    <string name="app_name">UserService Backendless Sample</string>
+    <string name="app_name">Healthy Food</string>
     <string name="registered_text">Thank you for registering!\nYou can use your email to login.</string>
     <string name="text_Home">Ana Sayfa</string>
     <string name="text_search">Keşfet</string>

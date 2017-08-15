@@ -21,12 +21,7 @@
             android:text="@string/app_name"
             android:textSize="@dimen/text_large" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp4"
-            android:text="@string/login_text"
-            android:textSize="@dimen/text_large" />
+
     </LinearLayout>
 
     <TableLayout

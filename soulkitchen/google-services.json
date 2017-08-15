@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "1071914578985",
+    "firebase_url": "https://healthyfoods-53125.firebaseio.com",
+    "project_id": "healthyfoods-53125",
+    "storage_bucket": "healthyfoods-53125.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071914578985:android:3121bb667ad4a749",
+        "android_client_info": {
+          "package_name": "com.soulkitchen.health"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071914578985-smfcned4b3inspivd55ngfcphmf4ena8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.soulkitchen.health",
+            "certificate_hash": "ef4d3a4c27b5fa93fdb2118290c2a756ae01ad2f"
+          }
+        },
+        {
+          "client_id": "1071914578985-b8dn664b4cjrioo0gl3s464ri5ufdrq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnkuengGqnnxJBkCVHnF-4xKBspv1GUXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071914578985-b8dn664b4cjrioo0gl3s464ri5ufdrq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071914578985:android:9590ab3240115613",
+        "android_client_info": {
+          "package_name": "com.example.idoser.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071914578985-befv6sabokhgde930lsl6j68gvurko6e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.idoser.myapp",
+            "certificate_hash": "ef4d3a4c27b5fa93fdb2118290c2a756ae01ad2f"
+          }
+        },
+        {
+          "client_id": "1071914578985-b8dn664b4cjrioo0gl3s464ri5ufdrq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnkuengGqnnxJBkCVHnF-4xKBspv1GUXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071914578985-b8dn664b4cjrioo0gl3s464ri5ufdrq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

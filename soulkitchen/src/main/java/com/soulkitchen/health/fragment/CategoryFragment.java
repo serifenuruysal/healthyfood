@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.backendless.BackendlessCollection;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
-import com.soulkitchen.health.adapters.CardViewAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.soulkitchen.health.R;
+import com.soulkitchen.health.adapters.CardViewAdapter;
 import com.soulkitchen.health.pojo.Recipies;
+import com.soulkitchen.health.wrappers.DatabaseManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,9 +31,10 @@ public class CategoryFragment extends BaseFragment {
 public static final String TAG="CategoryFragment";
     private static final boolean GRID_LAYOUT = false;
     private static final int ITEM_COUNT = 100;
-    private List<Recipies> recipieList;
+    private List<Recipies> recipieList=new ArrayList<>();
+    final GenericTypeIndicator<List<Recipies>> t = new GenericTypeIndicator<List<Recipies>>() {};
     private CardViewAdapter adapter;
-    private Integer categoryId;
+//    private Integer categoryId;
 
 
     @BindView(R.id.recyclerView)
@@ -53,26 +56,26 @@ public static final String TAG="CategoryFragment";
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        String whereClause = "categoryId ="+CategoryFragment.this.getArguments().getInt("CATEGORY_TYPE");
-        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-        dataQuery.setWhereClause( whereClause );
-        Recipies.findAsync(dataQuery, new AsyncCallback<BackendlessCollection<Recipies>>() {
+        DatabaseManager.getRecipieRef().orderByChild("categoryId").equalTo(CategoryFragment.this.getArguments().getInt("CATEGORY_TYPE")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void handleResponse(BackendlessCollection<Recipies> recipies) {
-                if (recipies!=null&&recipies.getData()!=null&&recipies.getData().size()>0){
-                    recipieList=recipies.getData();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue()!=null){
+                    for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        if (child.getValue(Recipies.class)!=null)
+                        recipieList.add(child.getValue(Recipies.class));
+                    }
+
                     adapter.setList(recipieList);
                     adapter.notifyDataSetChanged();
                 }
-                recipies.getTableName();
-
             }
 
             @Override
-            public void handleFault(BackendlessFault backendlessFault) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
 
 //        if (GRID_LAYOUT) {
             mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));

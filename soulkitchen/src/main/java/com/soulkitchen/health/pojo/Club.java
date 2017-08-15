@@ -1,4 +1,4 @@
-package com.example.idoser.health.pojo;
+package com.soulkitchen.health.pojo;
 
 /**
  * Created by serifenuruysal on 01/03/17.

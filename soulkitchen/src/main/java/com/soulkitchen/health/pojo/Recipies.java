@@ -3,17 +3,11 @@ package com.soulkitchen.health.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.backendless.Backendless;
-import com.backendless.BackendlessCollection;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.persistence.BackendlessDataQuery;
-
 public class Recipies implements Parcelable {
     private Integer ratings;
     private String writer;
     private Integer saturates;
-    private java.util.Date created;
-    private java.util.Date updated;
+
     private Double recipieId;
     private Integer protein;
     private String imageUrl;
@@ -89,13 +83,6 @@ public class Recipies implements Parcelable {
         this.saturates = saturates;
     }
 
-    public java.util.Date getCreated() {
-        return created;
-    }
-
-    public java.util.Date getUpdated() {
-        return updated;
-    }
 
     public String getLikeUsers() {
         return likeUsers;
@@ -273,120 +260,6 @@ public class Recipies implements Parcelable {
         this.carbs = carbs;
     }
 
-
-    public Recipies save() {
-        return Backendless.Data.of(Recipies.class).save(this);
-    }
-
-    public Future<Recipies> saveAsync() {
-        if (Backendless.isAndroid()) {
-            throw new UnsupportedOperationException("Using this method is restricted in Android");
-        } else {
-            Future<Recipies> future = new Future<Recipies>();
-            Backendless.Data.of(Recipies.class).save(this, future);
-
-            return future;
-        }
-    }
-
-    public void saveAsync(AsyncCallback<Recipies> callback) {
-        Backendless.Data.of(Recipies.class).save(this, callback);
-    }
-
-    public Long remove() {
-        return Backendless.Data.of(Recipies.class).remove(this);
-    }
-
-    public Future<Long> removeAsync() {
-        if (Backendless.isAndroid()) {
-            throw new UnsupportedOperationException("Using this method is restricted in Android");
-        } else {
-            Future<Long> future = new Future<Long>();
-            Backendless.Data.of(Recipies.class).remove(this, future);
-
-            return future;
-        }
-    }
-
-    public void removeAsync(AsyncCallback<Long> callback) {
-        Backendless.Data.of(Recipies.class).remove(this, callback);
-    }
-
-    public static Recipies findById(String id) {
-        return Backendless.Data.of(Recipies.class).findById(id);
-    }
-
-    public static Future<Recipies> findByIdAsync(String id) {
-        if (Backendless.isAndroid()) {
-            throw new UnsupportedOperationException("Using this method is restricted in Android");
-        } else {
-            Future<Recipies> future = new Future<Recipies>();
-            Backendless.Data.of(Recipies.class).findById(id, future);
-
-            return future;
-        }
-    }
-
-    public static void findByIdAsync(String id, AsyncCallback<Recipies> callback) {
-        Backendless.Data.of(Recipies.class).findById(id, callback);
-    }
-
-    public static Recipies findFirst() {
-        return Backendless.Data.of(Recipies.class).findFirst();
-    }
-
-    public static Future<Recipies> findFirstAsync() {
-        if (Backendless.isAndroid()) {
-            throw new UnsupportedOperationException("Using this method is restricted in Android");
-        } else {
-            Future<Recipies> future = new Future<Recipies>();
-            Backendless.Data.of(Recipies.class).findFirst(future);
-
-            return future;
-        }
-    }
-
-    public static void findFirstAsync(AsyncCallback<Recipies> callback) {
-        Backendless.Data.of(Recipies.class).findFirst(callback);
-    }
-
-    public static Recipies findLast() {
-        return Backendless.Data.of(Recipies.class).findLast();
-    }
-
-    public static Future<Recipies> findLastAsync() {
-        if (Backendless.isAndroid()) {
-            throw new UnsupportedOperationException("Using this method is restricted in Android");
-        } else {
-            Future<Recipies> future = new Future<Recipies>();
-            Backendless.Data.of(Recipies.class).findLast(future);
-
-            return future;
-        }
-    }
-
-    public static void findLastAsync(AsyncCallback<Recipies> callback) {
-        Backendless.Data.of(Recipies.class).findLast(callback);
-    }
-
-    public static BackendlessCollection<Recipies> find(BackendlessDataQuery query) {
-        return Backendless.Data.of(Recipies.class).find(query);
-    }
-
-    public static Future<BackendlessCollection<Recipies>> findAsync(BackendlessDataQuery query) {
-        if (Backendless.isAndroid()) {
-            throw new UnsupportedOperationException("Using this method is restricted in Android");
-        } else {
-            Future<BackendlessCollection<Recipies>> future = new Future<BackendlessCollection<Recipies>>();
-            Backendless.Data.of(Recipies.class).find(query, future);
-
-            return future;
-        }
-    }
-
-    public static void findAsync(BackendlessDataQuery query, AsyncCallback<BackendlessCollection<Recipies>> callback) {
-        Backendless.Data.of(Recipies.class).find(query, callback);
-    }
 
     @Override
     public int describeContents() {

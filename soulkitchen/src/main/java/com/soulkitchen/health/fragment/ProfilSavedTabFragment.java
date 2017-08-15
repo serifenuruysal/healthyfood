@@ -5,19 +5,20 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.backendless.BackendlessCollection;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.soulkitchen.health.adapters.CardViewAdapter;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
 import com.soulkitchen.health.pojo.SavedRecipies;
 import com.soulkitchen.health.utils.Session;
+import com.soulkitchen.health.wrappers.DatabaseManager;
 
 import java.util.List;
 
@@ -74,51 +75,64 @@ public class ProfilSavedTabFragment extends BaseFragment {
     }
 
     private void getSavedRecipies() {
-
-        String whereClause = "ownerId ='"+(String) Session.getSession().getUser().getUserId()+"'";
-        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-        dataQuery.setWhereClause( whereClause );
-
-        SavedRecipies.findAsync(dataQuery, new AsyncCallback<BackendlessCollection<SavedRecipies>>() {
+        DatabaseManager.getRecipieRef().orderByChild("savedUser").equalTo(Session.getSession().getUserId()+"").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void handleResponse(BackendlessCollection<SavedRecipies> recipies) {
-                if (recipies!=null&&recipies.getData()!=null&&recipies.getData().size()>0){
-                    String userSavedRecipies="";
-                    List<SavedRecipies> sr=recipies.getData();
-                    for (int i=0;i<sr.size();i++){
-                        userSavedRecipies=userSavedRecipies+"'"+sr.get(i).getRecipieId().trim()+"'";
-                        if (i<sr.size()-1){
-                            userSavedRecipies=userSavedRecipies+",";
-                        }
-                    }
-
-                    String whereClause = "objectId IN (" + userSavedRecipies+")";
-                    BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-                    dataQuery.setWhereClause(whereClause);
-                    Recipies.findAsync(dataQuery, new AsyncCallback<BackendlessCollection<Recipies>>() {
-                        @Override
-                        public void handleResponse(BackendlessCollection<Recipies> recipies) {
-                            if (recipies != null && recipies.getData() != null && recipies.getData().size() > 0) {
-                                recipieList = recipies.getData();
-                                adapter.setList(recipieList);
-                                adapter.notifyDataSetChanged();
-                            }
-                            recipies.getTableName();
-
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault backendlessFault) {
-                        }
-                    });
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot sn:dataSnapshot.getChildren()){
+                    Log.d("seri", "onDataChange: "+sn.getKey());
                 }
             }
 
             @Override
-            public void handleFault(BackendlessFault backendlessFault) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+//        String whereClause = "ownerId ='"+(String) Session.getSession().getUser().getUserId()+"'";
+//        BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+//        dataQuery.setWhereClause( whereClause );
+//
+//        SavedRecipies.findAsync(dataQuery, new AsyncCallback<BackendlessCollection<SavedRecipies>>() {
+//            @Override
+//            public void handleResponse(BackendlessCollection<SavedRecipies> recipies) {
+//                if (recipies!=null&&recipies.getData()!=null&&recipies.getData().size()>0){
+//                    String userSavedRecipies="";
+//                    List<SavedRecipies> sr=recipies.getData();
+//                    for (int i=0;i<sr.size();i++){
+//                        userSavedRecipies=userSavedRecipies+"'"+sr.get(i).getRecipieId().trim()+"'";
+//                        if (i<sr.size()-1){
+//                            userSavedRecipies=userSavedRecipies+",";
+//                        }
+//                    }
+//
+//                    String whereClause = "objectId IN (" + userSavedRecipies+")";
+//                    BackendlessDataQuery dataQuery = new BackendlessDataQuery();
+//                    dataQuery.setWhereClause(whereClause);
+//                    Recipies.findAsync(dataQuery, new AsyncCallback<BackendlessCollection<Recipies>>() {
+//                        @Override
+//                        public void handleResponse(BackendlessCollection<Recipies> recipies) {
+//                            if (recipies != null && recipies.getData() != null && recipies.getData().size() > 0) {
+//                                recipieList = recipies.getData();
+//                                adapter.setList(recipieList);
+//                                adapter.notifyDataSetChanged();
+//                            }
+//                            recipies.getTableName();
+//
+//                        }
+//
+//                        @Override
+//                        public void handleFault(BackendlessFault backendlessFault) {
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void handleFault(BackendlessFault backendlessFault) {
+//
+//            }
+//        });
 
 
     }

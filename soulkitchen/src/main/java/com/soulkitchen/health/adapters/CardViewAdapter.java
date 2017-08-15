@@ -14,25 +14,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.backendless.Backendless;
-import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-import com.soulkitchen.health.server.DefaultCallback;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.pojo.Recipies;
-import com.soulkitchen.health.pojo.SavedRecipies;
 import com.soulkitchen.health.utils.Session;
 import com.soulkitchen.health.view.CustomTextView;
+import com.soulkitchen.health.wrappers.DatabaseManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +57,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomTextView title, count,cookTime,kcal,likeCount;
+        public CustomTextView title, count, cookTime, kcal, likeCount;
         public KenBurnsView thumbnail, overflow;
         public BoomMenuButton bmb;
         public ImageView bluredView;
@@ -78,14 +79,15 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
 
     public interface CardViewAdapterListener {
         public void onClickCard(Recipies recipie);
+
         public void onClickActionFinish();
     }
 
-    public CardViewAdapter(Context mContext, List<Recipies> recipieList, CardViewAdapterListener listener,boolean isFromProfil) {
+    public CardViewAdapter(Context mContext, List<Recipies> recipieList, CardViewAdapterListener listener, boolean isFromProfil) {
         this.mContext = mContext;
         this.recipieList = recipieList;
-        this.listener=listener;
-        this.isFromProfil=isFromProfil;
+        this.listener = listener;
+        this.isFromProfil = isFromProfil;
     }
 
     @Override
@@ -113,9 +115,9 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
         Glide.with(mContext).load(album.getImageUrl()).centerCrop().into(holder.thumbnail);
 //        Glide.with(mContext).load(album.getImageUrl()).fitCenter().override(600, 80).bitmapTransform(blurTransformation).into(holder.bluredView);
 
-        holder.cookTime.setText(album.getCookTime()+"");
-        holder.likeCount.setText(album.getLikeCount()+"");
-        holder.kcal.setText(album.getKcal()+"");
+        holder.cookTime.setText(album.getCookTime() + "");
+        holder.likeCount.setText(album.getLikeCount() + "");
+        holder.kcal.setText(album.getKcal() + "");
 
         assert holder.bmb != null;
         holder.bmb.setButtonEnum(ButtonEnum.TextOutsideCircle);
@@ -144,13 +146,13 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
 
         holder.bmb.addBuilder(new TextOutsideCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_download)
-                .normalText(isFromProfil?"LİSTEMDEN ÇIKAR":"LİSTEME EKLE").listener(new OnBMClickListener() {
+                .normalText(isFromProfil ? "LİSTEMDEN ÇIKAR" : "LİSTEME EKLE").listener(new OnBMClickListener() {
                     @Override
                     public void onBoomButtonClick(int index) {
-                        if (isFromProfil){
+                        if (isFromProfil) {
                             removeSavedRecipie(album);
-                        }else{
-                            saveRecipie(album,holder);
+                        } else {
+                            saveRecipie(album, holder);
                         }
 
                     }
@@ -161,7 +163,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
                 .normalText("BEĞEN").listener(new OnBMClickListener() {
                     @Override
                     public void onBoomButtonClick(int index) {
-                        likeRecipie(album,holder);
+                        likeRecipie(album, holder);
                     }
                 }).imagePadding(new Rect(20, 20, 20, 20)));
 
@@ -172,89 +174,128 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
     }
 
     private void removeSavedRecipie(Recipies recipies) {
-        Backendless.Persistence.of(SavedRecipies.class).remove(new SavedRecipies(recipies.getObjectId()+""), new AsyncCallback<Long>() {
+
+        DatabaseManager.getRecipieRef().orderByKey().equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void handleResponse(Long response) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getValue();
 
             }
 
             @Override
-            public void handleFault(BackendlessFault backendlessFault) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
+//
+//        Backendless.Persistence.of(SavedRecipies.class).remove(new SavedRecipies(recipies.getObjectId()+""), new AsyncCallback<Long>() {
+//            @Override
+//            public void handleResponse(Long response) {
+//
+//            }
+//
+//            @Override
+//            public void handleFault(BackendlessFault backendlessFault) {
+//
+//            }
+//        });
     }
 
-    private void likeRecipie(final Recipies recipies,final MyViewHolder holder) {
-        final int newCount=recipies.getLikeCount()+1;
-
-        recipies.setLikeUsers(recipies.getLikeUsers()!=null?(recipies.getLikeUsers()+","): ""+Session.getSession().getUser().getUserId());
-        recipies.setLikeCount(newCount);
-        recipies.saveAsync( new DefaultCallback<Recipies>( mContext )
-        {
-            @Override
-            public void handleResponse( Recipies response )
-            {
-                holder.likeCount.setText(newCount+"");
-
-                super.handleResponse( response );
-
-            }
-        } );
-
-    }
-    private void saveRecipie(final Recipies recipies,final MyViewHolder holder) {
-        int newCount=0;
-        if (isFromProfil){
-            newCount=recipies.getSaveCount()-1;
-        }else{
-            newCount=recipies.getSaveCount()+1;
+    private void likeRecipie(final Recipies recipies, final MyViewHolder holder) {
+        int newCount = 0;
+        if (isFromProfil) {
+            newCount = recipies.getLikeCount() - 1;
+        } else {
+            newCount = recipies.getLikeCount() + 1;
         }
-        recipies.setSaveCount(newCount);
-        recipies.saveAsync( new DefaultCallback<Recipies>( mContext )
-        {
+        recipies.setLikeCount(newCount);
+        final GenericTypeIndicator<List<Recipies>> t = new GenericTypeIndicator<List<Recipies>>() {
+        };
+        DatabaseManager.getRecipieRef().orderByChild("objectId").equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void handleResponse( Recipies response )
-            {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String key = "";
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        Recipies rc = userSnapshot.getValue(Recipies.class);
+                        if (rc.getObjectId().equals(recipies.getObjectId())) {
+                            key = userSnapshot.getKey();
+                            break;
+                        }
 
-                if (isFromProfil){
-                    Backendless.Persistence.of( SavedRecipies.class ).remove(new SavedRecipies(recipies.getObjectId() + ""), new AsyncCallback<Long>() {
+                    }
+                }
+                DatabaseManager.getRecipieRef().child(key).setValue(recipies);
+
+                if (isFromProfil) {
+                    DatabaseManager.getRecipieRef().child(key).child("likedUser").child(Session.getSession().getUserId() + "").removeValue();
+
+                } else {
+                    DatabaseManager.getRecipieRef().child(key).child("likedUser").child(Session.getSession().getUserId() + "").setValue(".", new DatabaseReference.CompletionListener() {
                         @Override
-                        public void handleResponse(Long aLong) {
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             listener.onClickActionFinish();
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault backendlessFault) {
-
-                        }
-                    });
-
-                }else{
-
-//                    String whereClause = "ownerId ='"+(String) Session.getSession().getUser().getUserId()+"'";
-//                    BackendlessDataQuery dataQuery = new BackendlessDataQuery();
-//                    dataQuery.setWhereClause( whereClause );
-                    Backendless.Persistence.save(new SavedRecipies(recipies.getObjectId()+""), new AsyncCallback<SavedRecipies>() {
-                        @Override
-                        public void handleResponse(SavedRecipies savedRecipies) {
-
-                        }
-
-                        @Override
-                        public void handleFault(BackendlessFault backendlessFault) {
 
                         }
                     });
                 }
+            }
 
-
-
-
-                super.handleResponse( response );
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
-        } );
+        });
+
+    }
+
+    private void saveRecipie(final Recipies recipies, final MyViewHolder holder) {
+        int newCount = 0;
+        if (isFromProfil) {
+            newCount = recipies.getSaveCount() - 1;
+        } else {
+            newCount = recipies.getSaveCount() + 1;
+        }
+        recipies.setSaveCount(newCount);
+        final GenericTypeIndicator<List<Recipies>> t = new GenericTypeIndicator<List<Recipies>>() {
+        };
+        DatabaseManager.getRecipieRef().orderByChild("objectId").equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String key = "";
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        Recipies rc = userSnapshot.getValue(Recipies.class);
+                        if (rc.getObjectId().equals(recipies.getObjectId())) {
+                            key = userSnapshot.getKey();
+                            break;
+                        }
+
+                    }
+                }
+                DatabaseManager.getRecipieRef().child(key).setValue(recipies);
+
+                if (isFromProfil) {
+                    DatabaseManager.getRecipieRef().child(key).child("savedUser").child(Session.getSession().getUserId() + "").removeValue();
+
+                } else {
+                    DatabaseManager.getRecipieRef().child(key).child("savedUser").child(Session.getSession().getUserId() + "").setValue(".", new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            listener.onClickActionFinish();
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void share(final Recipies album) {
@@ -264,7 +305,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
             public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
 
                 try {
-                    File temporaryFile=null;
+                    File temporaryFile = null;
                     temporaryFile = File.createTempFile("temp", ".jpeg", mContext.getExternalCacheDir());
                     com.soulkitchen.health.utils.Utils.copyFile(resource, temporaryFile);
                     temporaryFile.deleteOnExit();
@@ -273,7 +314,6 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
                     sendIntent.setAction(Intent.ACTION_SEND);
                     sendIntent.setType("image/jpeg");
 
-                    sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(temporaryFile));
                     sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     sendIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 

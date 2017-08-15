@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,20 +18,20 @@ import android.widget.TextView;
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.backendless.BackendlessCollection;
-import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.soulkitchen.health.server.DefaultCallback;
-import com.soulkitchen.health.adapters.MyCategoryAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.soulkitchen.health.R;
+import com.soulkitchen.health.adapters.MyCategoryAdapter;
 import com.soulkitchen.health.pojo.Categories;
 import com.soulkitchen.health.view.PagerSlidingTabStrip;
+import com.soulkitchen.health.wrappers.DatabaseManager;
 
 import java.util.List;
 
-import static com.backendless.media.SessionBuilder.TAG;
 
 /**
  * Created by serifenuruysal on 07/03/17.
@@ -44,6 +43,7 @@ public class SearchFragment extends BaseFragment  implements AppBarLayout.OnOffs
     private List<Categories> categoryList;
     ImageView appBarImageView;
     private AppBarLayout mAppBarLayout;
+    final GenericTypeIndicator<List<Categories>> t = new GenericTypeIndicator<List<Categories>>() {};
     FrameLayout fr;
     @Override
     public View onCreateView(LayoutInflater paramLayoutInflater, ViewGroup paramViewGroup, Bundle paramBundle) {
@@ -106,8 +106,6 @@ public class SearchFragment extends BaseFragment  implements AppBarLayout.OnOffs
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(offset) / (float) maxScroll;
 
-//        handleAlphaOnTitle(percentage,fr);
-//        handleToolbarTitleVisibility(percentage);
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -130,24 +128,20 @@ public class SearchFragment extends BaseFragment  implements AppBarLayout.OnOffs
 
         }
 
-        BackendlessDataQuery query = new BackendlessDataQuery();
-        Categories.findAsync( query, new DefaultCallback<BackendlessCollection<Categories>>( getActivity())
-        {
+
+
+        DatabaseManager.getInstance().getCategoryRef().orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void handleResponse( BackendlessCollection<Categories> recipies )
-            {
-                super.handleResponse( recipies );
-                if (recipies!=null&&recipies.getData()!=null&&recipies.getData().size()>0){
-                    categoryList=recipies.getData();
-                    setViewPager();
-                }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                categoryList= dataSnapshot.getValue(t);
+                setViewPager();
             }
+
             @Override
-            public void handleFault( BackendlessFault fault )
-            {
-                Log.e(TAG, "handleFault: "+fault.getMessage(),null );
+            public void onCancelled(DatabaseError databaseError) {
+
             }
-        } );
+        });
     }
 
     private void setViewPager() {

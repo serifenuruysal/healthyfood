@@ -5,7 +5,6 @@ import android.content.ComponentCallbacks;
 import android.content.res.Configuration;
 import android.util.Log;
 
-import com.backendless.Backendless;
 import com.facebook.FacebookSdk;
 import com.soulkitchen.health.constants.Defaults;
 
@@ -19,12 +18,13 @@ public class SoulApp extends Application {
     public void onCreate() {
         super.onCreate();
 
+
         if (Defaults.APPLICATION_ID.equals("") || Defaults.SECRET_KEY.equals("") || Defaults.VERSION.equals("")) {
             Log.e(TAG, "Missing application ID and secret key arguments. Login to Backendless Console", null);
             return;
         }
 
-        Backendless.initApp(this, Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
+//        Backendless.initApp(this, Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
     }
 

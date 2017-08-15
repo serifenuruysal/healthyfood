@@ -11,13 +11,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
-import com.soulkitchen.health.server.DefaultCallback;
-import com.soulkitchen.health.constants.Defaults;
 import com.soulkitchen.health.R;
-import com.soulkitchen.health.utils.Session;
-import com.soulkitchen.health.utils.SocialCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,37 +35,6 @@ public class PreLoginActivity extends Activity {
 
         initUI();
 
-        Backendless.setUrl( Defaults.SERVER_URL );
-        Backendless.initApp( this, Defaults.APPLICATION_ID, Defaults.SECRET_KEY, Defaults.VERSION );
-
-        Backendless.UserService.isValidLogin( new DefaultCallback<Boolean>( this )
-        {
-            @Override
-            public void handleResponse( Boolean isValidLogin )
-            {
-                if( isValidLogin && Backendless.UserService.CurrentUser() == null )
-                {
-                    String currentUserId = Backendless.UserService.loggedInUser();
-
-                    if( !currentUserId.equals( "" ) )
-                    {
-                        Backendless.UserService.findById( currentUserId, new DefaultCallback<BackendlessUser>( PreLoginActivity.this )
-                        {
-                            @Override
-                            public void handleResponse( BackendlessUser currentUser )
-                            {
-                                super.handleResponse( currentUser );
-                                Backendless.UserService.setCurrentUser( currentUser );
-                                startActivity( new Intent( getBaseContext(), MainActivity.class ) );
-                                finish();
-                            }
-                        } );
-                    }
-                }
-
-                super.handleResponse( isValidLogin );
-            }
-        });
 
         onLoginWithFacebookButtonClicked();
     }
@@ -159,28 +122,18 @@ public class PreLoginActivity extends Activity {
         String password = passwordField.getText().toString();
         boolean rememberLogin = rememberLoginBox.isChecked();
 
-        Backendless.UserService.login( identity, password, new DefaultCallback<BackendlessUser>( PreLoginActivity.this )
-        {
-            public void handleResponse( BackendlessUser backendlessUser )
-            {
-                super.handleResponse( backendlessUser );
-                Session.getSession().setUser(backendlessUser);
-                startActivity( new Intent( PreLoginActivity.this, MainActivity.class ) );
-                finish();
-            }
-        }, rememberLogin );
     }
 
     public void onRegisterLinkClicked()
     {
-        startActivity( new Intent( this, RegisterActivity.class ) );
-        finish();
+//        startActivity( new Intent( this, RegisterActivity.class ) );
+//        finish();
     }
 
     public void onRestoreLinkClicked()
     {
-        startActivity( new Intent( this, RestorePasswordActivity.class ) );
-        finish();
+//        startActivity( new Intent( this, RestorePasswordActivity.class ) );
+//        finish();
     }
 
     public void onLoginWithFacebookButtonClicked()
@@ -193,16 +146,6 @@ public class PreLoginActivity extends Activity {
         List<String> facebookPermissions = new ArrayList<>();
         facebookPermissions.add( "email" );
 
-        Backendless.UserService.loginWithFacebook( PreLoginActivity.this, null, facebookFieldsMapping, facebookPermissions, new SocialCallback<BackendlessUser>( PreLoginActivity.this )
-        {
-            @Override
-            public void handleResponse( BackendlessUser backendlessUser )
-            {
-                Session.getSession().setUser(backendlessUser);
-                startActivity( new Intent( getBaseContext(), MainActivity.class ) );
-                finish();
-            }
-        } );
     }
 
     public void onLoginWithTwitterButtonClicked()
@@ -210,16 +153,6 @@ public class PreLoginActivity extends Activity {
         Map<String, String> twitterFieldsMapping = new HashMap<>();
         twitterFieldsMapping.put( "name", "name" );
 
-        Backendless.UserService.loginWithTwitter( PreLoginActivity.this, twitterFieldsMapping, new SocialCallback<BackendlessUser>( PreLoginActivity.this )
-        {
-            @Override
-            public void handleResponse( BackendlessUser backendlessUser )
-            {
-                Session.getSession().setUser(backendlessUser);
-                startActivity( new Intent( getBaseContext(), MainActivity.class ) );
-                finish();
-            }
-        } );
     }
 
     public void onLoginWithGoogleButtonClicked()
@@ -229,20 +162,6 @@ public class PreLoginActivity extends Activity {
         googleFieldsMapping.put( "gender", "gender" );
         googleFieldsMapping.put( "email", "email" );
 
-        List<String> googlePermissions = new ArrayList<>();
-
-        Backendless.UserService.loginWithGooglePlus( PreLoginActivity.this, null, googleFieldsMapping, googlePermissions, new SocialCallback<BackendlessUser>( PreLoginActivity.this )
-        {
-            @Override
-            public void handleResponse( BackendlessUser backendlessUser )
-            {
-                Session.getSession().setUser(backendlessUser);
-                startActivity( new Intent( getBaseContext(), MainActivity.class ) );
-                finish();
-
-
-            }
-        });
     }
 
 }

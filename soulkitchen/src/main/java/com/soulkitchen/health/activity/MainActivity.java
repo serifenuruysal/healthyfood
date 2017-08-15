@@ -15,6 +15,8 @@ import android.widget.ImageView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.soulkitchen.health.R;
 import com.soulkitchen.health.fragment.BaseFragment;
 import com.soulkitchen.health.fragment.ProfilSavedTabFragment;
@@ -89,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
                         fragment = (BaseFragment) manager.findFragmentByTag(SearchFragment.class.getSimpleName());
                         if (fragment == null) {
                             fragment = SearchFragment.newInstance("action_music");
+                            // Write a message to the database
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("message");
+
+                            myRef.setValue("Hello, World!");
                         }
 
                         break;
