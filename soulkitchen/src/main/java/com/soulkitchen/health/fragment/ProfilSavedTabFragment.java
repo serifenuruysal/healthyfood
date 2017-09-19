@@ -15,11 +15,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.soulkitchen.health.adapters.CardViewAdapter;
 import com.soulkitchen.health.R;
+import com.soulkitchen.health.pojo.Categories;
 import com.soulkitchen.health.pojo.Recipies;
 import com.soulkitchen.health.pojo.SavedRecipies;
 import com.soulkitchen.health.utils.Session;
 import com.soulkitchen.health.wrappers.DatabaseManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +30,7 @@ import java.util.List;
 
 public class ProfilSavedTabFragment extends BaseFragment {
 
-//    private Toolbar mToolbar;
+    //    private Toolbar mToolbar;
     private List<Recipies> recipieList;
     private CardViewAdapter adapter;
     RecyclerView mRecyclerView;
@@ -70,17 +72,20 @@ public class ProfilSavedTabFragment extends BaseFragment {
         }, true);
 
 
-
         mRecyclerView.setAdapter(adapter);
     }
 
     private void getSavedRecipies() {
-        DatabaseManager.getRecipieRef().orderByChild("savedUser").equalTo(Session.getSession().getUserId()+"").addListenerForSingleValueEvent(new ValueEventListener() {
+        recipieList = new ArrayList<>();
+        DatabaseManager.getSavedRecipie().orderByKey().equalTo(Session.getSession().getUserId() + "").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot sn:dataSnapshot.getChildren()){
-                    Log.d("seri", "onDataChange: "+sn.getKey());
+                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    Recipies note = noteDataSnapshot.getValue(Recipies.class);
+                    recipieList.add(note);
                 }
+                if (recipieList.size() > 0)
+                    adapter.notifyDataSetChanged();
             }
 
             @Override

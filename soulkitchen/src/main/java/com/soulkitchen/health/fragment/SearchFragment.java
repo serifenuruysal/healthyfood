@@ -30,6 +30,7 @@ import com.soulkitchen.health.pojo.Categories;
 import com.soulkitchen.health.view.PagerSlidingTabStrip;
 import com.soulkitchen.health.wrappers.DatabaseManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,7 +41,7 @@ import java.util.List;
 public class SearchFragment extends BaseFragment  implements AppBarLayout.OnOffsetChangedListener {
     ViewPager mViewPager;
     PagerSlidingTabStrip tabs;
-    private List<Categories> categoryList;
+    private ArrayList<Categories> categoryList;
     ImageView appBarImageView;
     private AppBarLayout mAppBarLayout;
     final GenericTypeIndicator<List<Categories>> t = new GenericTypeIndicator<List<Categories>>() {};
@@ -128,12 +129,15 @@ public class SearchFragment extends BaseFragment  implements AppBarLayout.OnOffs
 
         }
 
-
+        categoryList=new ArrayList<>();
 
         DatabaseManager.getInstance().getCategoryRef().orderByKey().addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                categoryList= dataSnapshot.getValue(t);
+                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    Categories note = noteDataSnapshot.getValue(Categories.class);
+                    categoryList.add(note);
+                }
                 setViewPager();
             }
 

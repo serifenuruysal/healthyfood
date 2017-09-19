@@ -29,6 +29,9 @@ public class DatabaseManager {
         return database.getReference("recipies");
     }
 
+    public static DatabaseReference getSavedRecipie(){
+        return database.getReference("savedRecipie");
+    }
     public static DatabaseReference getRef(){
         return database.getReference();
     }

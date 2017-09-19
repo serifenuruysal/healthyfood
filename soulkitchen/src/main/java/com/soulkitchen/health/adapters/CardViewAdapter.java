@@ -212,7 +212,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
         recipies.setLikeCount(newCount);
         final GenericTypeIndicator<List<Recipies>> t = new GenericTypeIndicator<List<Recipies>>() {
         };
-        DatabaseManager.getRecipieRef().orderByChild("objectId").equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseManager.getRecipieRef().child("likedUser").orderByChild("objectId").equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String key = "";
@@ -258,43 +258,58 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.MyView
             newCount = recipies.getSaveCount() + 1;
         }
         recipies.setSaveCount(newCount);
-        final GenericTypeIndicator<List<Recipies>> t = new GenericTypeIndicator<List<Recipies>>() {
-        };
-        DatabaseManager.getRecipieRef().orderByChild("objectId").equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String key = "";
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        Recipies rc = userSnapshot.getValue(Recipies.class);
-                        if (rc.getObjectId().equals(recipies.getObjectId())) {
-                            key = userSnapshot.getKey();
-                            break;
-                        }
+        DatabaseManager.getRecipieRef().child(recipies.getObjectId()).setValue(recipies);
 
-                    }
-                }
-                DatabaseManager.getRecipieRef().child(key).setValue(recipies);
+        if (isFromProfil) {
+            DatabaseManager.getSavedRecipie().child(Session.getSession().getUserId() + "").child(recipies.getObjectId()).removeValue();
 
-                if (isFromProfil) {
-                    DatabaseManager.getRecipieRef().child(key).child("savedUser").child(Session.getSession().getUserId() + "").removeValue();
-
-                } else {
-                    DatabaseManager.getRecipieRef().child(key).child("savedUser").child(Session.getSession().getUserId() + "").setValue(".", new DatabaseReference.CompletionListener() {
+        }else{
+            DatabaseManager.getSavedRecipie().child(Session.getSession().getUserId() + "").child( recipies.getObjectId()).setValue(recipies, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             listener.onClickActionFinish();
 
                         }
                     });
-                }
-            }
+        }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        final GenericTypeIndicator<List<Recipies>> t = new GenericTypeIndicator<List<Recipies>>() {
+//        };
+//        DatabaseManager.getRecipieRef().child("savedUser").orderByChild("objectId").equalTo(recipies.getObjectId()).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                String key = "";
+//                if (dataSnapshot.exists()) {
+//                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+//                        Recipies rc = userSnapshot.getValue(Recipies.class);
+//                        if (rc.getObjectId().equals(recipies.getObjectId())) {
+//                            key = userSnapshot.getKey();
+//                            break;
+//                        }
+//
+//                    }
+//                }
+//                DatabaseManager.getRecipieRef().child(key).setValue(recipies);
+//
+//                if (isFromProfil) {
+//                    DatabaseManager.getRecipieRef().child(key).child("savedUser").child(Session.getSession().getUserId() + "").removeValue();
+//
+//                } else {
+//                    DatabaseManager.getRecipieRef().child(key).child("savedUser").child(Session.getSession().getUserId() + "").setValue(".", new DatabaseReference.CompletionListener() {
+//                        @Override
+//                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+//                            listener.onClickActionFinish();
+//
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
     }
 
